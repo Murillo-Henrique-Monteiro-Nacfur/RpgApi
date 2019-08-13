@@ -31,6 +31,16 @@ public class SheetEndPoint {
     }
 
 
+    @GetMapping(path = "/UserOwner/{id}")
+    public ResponseEntity<?>  findSheetByUserOwner(@PathVariable("id")long id){
+        try{
+            return  new ResponseEntity<>(sheetDAO.findAllSheetBySheetUserId(id), HttpStatus.OK);
+        }catch(Exception e){
+            return  new ResponseEntity<>("Sheets Not Found", HttpStatus.NOT_FOUND);
+        }
+    }
+
+
     @PostMapping
     public ResponseEntity<?> saveSheet(@RequestBody Sheet Sheet){
         try {

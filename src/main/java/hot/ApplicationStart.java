@@ -12,8 +12,6 @@ import javax.sql.DataSource;
 
 
 @SpringBootApplication
-//@EnableAutoConfiguration
-//@ComponentScan(basePackages = "hot.endpoint")
 public class ApplicationStart {
     public  static void main(String[] args){
         SpringApplication.run(ApplicationStart.class,args);}
@@ -21,7 +19,6 @@ public class ApplicationStart {
     @Bean
     public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        //dataSource.setDriverClassName("com.mysql.jdbc.Driver");
         dataSource.setUrl("jdbc:mysql://bizmeaoxektymsx9iifm-mysql.services.clever-cloud.com:3306/bizmeaoxektymsx9iifm?useTimezone=true&serverTimezone=UTC&useSSL=false");
         dataSource.setUsername("u7ymgdyzzbsm52q9");
         dataSource.setPassword("KJTBGJYYa2dlzBiCa4dH");
