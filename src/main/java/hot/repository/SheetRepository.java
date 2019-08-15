@@ -1,4 +1,4 @@
-package hot.endpoint;
+package hot.repository;
 
 import hot.model.Sheet;
 import org.springframework.data.jpa.repository.Query;

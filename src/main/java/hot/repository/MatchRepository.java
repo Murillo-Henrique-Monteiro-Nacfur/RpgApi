@@ -1,4 +1,4 @@
-package hot.endpoint;
+package hot.repository;
 
 import hot.model.Match;
 import org.springframework.data.repository.CrudRepository;

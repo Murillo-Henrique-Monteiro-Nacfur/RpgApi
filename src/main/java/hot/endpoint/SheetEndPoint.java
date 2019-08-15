@@ -2,6 +2,7 @@ package hot.endpoint;
 
 
 import hot.model.Sheet;
+import hot.repository.SheetRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -9,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("sheet")
 public class SheetEndPoint {
-    private  SheetRepository sheetDAO;
+    private SheetRepository sheetDAO;
     private SheetEndPoint(SheetRepository sheetRepository){
         sheetDAO = sheetRepository;
     }

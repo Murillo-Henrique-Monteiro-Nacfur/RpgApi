@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>RpgTccApi</groupId>
+    <groupId>hot</groupId>
     <artifactId>RpgApi</artifactId>
     <version>1.0</version>
     <packaging>jar</packaging>
@@ -26,11 +26,6 @@
             <artifactId>spring-boot-devtools</artifactId>
             <optional>true</optional>
         </dependency>
-        <dependency>
-            <groupId>groupId</groupId>
-            <artifactId>RPGTCCAPI</artifactId>
-            <version>1.0</version>
-        </dependency>
         <!--
          Dependencias Referentes ao JPA
          -->
@@ -51,7 +46,6 @@
             <dependency>
                 <groupId>mysql</groupId>
                 <artifactId>mysql-connector-java</artifactId>
-                <version>8.0.17</version>
             </dependency>
         <dependency>
             <groupId>org.hibernate</groupId>
@@ -96,10 +90,6 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <configuration>
-                    <mainClass>ApplicationStart.class</mainClass>
-                    <addResources>true</addResources>
-                </configuration>
             </plugin>
         </plugins>
     </build>

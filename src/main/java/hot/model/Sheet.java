@@ -15,7 +15,6 @@ public class Sheet implements Serializable  {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long sheetId;
 
-
     @NonNull
     private String  name;
     private int     maxHealthPoints;
@@ -36,9 +35,6 @@ public class Sheet implements Serializable  {
     @ManyToMany
     @JoinTable(name = "Sheet_in_Match",joinColumns = @JoinColumn(name = "Sheet_in_Match_sheet_id"),inverseJoinColumns = @JoinColumn(name = "Sheet_in_Match_match_id"))
     private List<Match> sheetMatchs;
-
-
-
 
     public long getSheetId() {
         return sheetId;
@@ -153,20 +149,17 @@ public class Sheet implements Serializable  {
         this.wisdom = wisdom;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        AbstractEntity that = (AbstractEntity) o;
+        return sheetId == that.id;
+    }
 
-
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
-            AbstractEntity that = (AbstractEntity) o;
-            return sheetId == that.id;
-        }
-
-        @Override
-        public int hashCode() {
-            return Objects.hash(sheetId);
-        }
-
+    @Override
+    public int hashCode() {
+        return Objects.hash(sheetId);
+    }
 }
 

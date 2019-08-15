@@ -9,7 +9,6 @@ import java.util.Objects;
 @Entity(name = "Game")
 public class Match implements Serializable {
 
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long matchId;

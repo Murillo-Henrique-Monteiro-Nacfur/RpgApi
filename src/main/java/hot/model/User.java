@@ -7,12 +7,8 @@ import java.util.List;
 @Entity(name = "Player")
 public class User extends AbstractEntity {
 
-
-
     @Column(unique=true, nullable=false)
     private    String name;
-
-
 
     @Column(unique=true, nullable=false)
     private    String password;
@@ -21,13 +17,11 @@ public class User extends AbstractEntity {
     private    String email;
     private    Date dateaccount;
 
-    @OneToMany(mappedBy = "matchUser",cascade = CascadeType.PERSIST) // .ALL
-    private List<Match> matchs;// @JoinColumn(name = "user_id")
+    @OneToMany(mappedBy = "matchUser",cascade = CascadeType.PERSIST)
+    private List<Match> matchs;
 
-
-    @OneToMany(mappedBy = "sheetUser",cascade = CascadeType.PERSIST) // .ALL
+    @OneToMany(mappedBy = "sheetUser",cascade = CascadeType.PERSIST)
     private List<Sheet> sheets;
-// @JoinColumn(name = "user_id")
 
     public String getName() {
         return name;

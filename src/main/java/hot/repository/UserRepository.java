@@ -1,4 +1,4 @@
-package hot.endpoint;
+package hot.repository;
 
 import hot.model.User;
 import org.springframework.data.repository.CrudRepository;

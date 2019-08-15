@@ -2,6 +2,7 @@ package hot.endpoint;
 
 
 import hot.model.Match;
+import hot.repository.MatchRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
