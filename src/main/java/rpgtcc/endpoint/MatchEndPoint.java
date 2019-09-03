@@ -3,6 +3,7 @@ package hot.endpoint;
 
 import hot.model.Match;
 import hot.repository.MatchRepository;
+import hot.model.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +22,19 @@ public class MatchEndPoint {
 
         return new ResponseEntity<>(matchDAO.findAll(), HttpStatus.OK);
     }
+
+    @GetMapping(path = "/UserOwner/{id}")
+    public ResponseEntity<?> listOfMatchsByOwner(@PathVariable("id")Long id){
+
+        User user = new User();
+        user.setId(id);
+        try{
+            return  new ResponseEntity<>(matchDAO.findMatchByMatchUser(user), HttpStatus.OK);
+        }catch(Exception e){
+            return  new ResponseEntity<>("Match Not Found", HttpStatus.NOT_FOUND);
+        }
+    }
+
 
     @GetMapping(path = "/{id}")
     public ResponseEntity<?>  findMatchById(@PathVariable("id")Long id){

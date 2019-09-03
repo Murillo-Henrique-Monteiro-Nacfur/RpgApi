@@ -1,5 +1,6 @@
 package hot.endpoint;
 
+import hot.model.Sheet;
 import hot.model.User;
 import hot.repository.UserRepository;
 import org.springframework.http.HttpStatus;
@@ -24,9 +25,14 @@ public class UserEndPoint {
     public ResponseEntity<?>  findUserByName(@PathVariable("userName")String userName){
         User user= null;
         try{
-            return  new ResponseEntity<>(userDAO.findUserByName(userName), HttpStatus.OK);
+
+            if (userDAO.findUserByName(userName).getName() == userName)
+                return  new ResponseEntity<>(userDAO.findUserByName(userName), HttpStatus.OK);
+            else
+                return  new ResponseEntity<>("User Not found", HttpStatus.NOT_FOUND);
+
         }catch(Exception e){
-            return  new ResponseEntity<>("User Not Found", HttpStatus.NOT_FOUND);
+            return  new ResponseEntity<>("User Not Found",HttpStatus.NOT_FOUND );
         }
     }
     @PostMapping
@@ -37,8 +43,6 @@ public class UserEndPoint {
         }catch(Exception e){
             return new ResponseEntity<>(e.getMessage(),HttpStatus.CONFLICT);
         }
-
-
     }
 
    @DeleteMapping(path = "/{id}")
@@ -47,7 +51,7 @@ public class UserEndPoint {
             userDAO.deleteById(id);
             return new ResponseEntity<>(HttpStatus.OK);
         }catch(Exception e){
-            return new ResponseEntity<>("OOOOOOOOOOOOOOOOOOIIIIIIIIIIIII",HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("User Not Found.",HttpStatus.NOT_FOUND);
         }
     }
 
@@ -58,7 +62,7 @@ public class UserEndPoint {
             userDAO.save(user);
             return new ResponseEntity<>(HttpStatus.OK);
         }else{
-            return new ResponseEntity<>("User não encontrado.",HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("User Not Found.",HttpStatus.NOT_FOUND);
         }
     }
     
