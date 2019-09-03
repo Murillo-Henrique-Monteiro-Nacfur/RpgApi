@@ -1,9 +1,9 @@
-package hot.endpoint;
+package rpgtcc.endpoint;
 
 
-import hot.model.Match;
-import hot.repository.MatchRepository;
-import hot.model.User;
+import rpgtcc.model.Match;
+import rpgtcc.repository.MatchRepository;
+import rpgtcc.model.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

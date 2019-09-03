@@ -1,7 +1,6 @@
-package hot.repository;
+package rpgtcc.repository;
 
-import hot.model.Sheet;
-import org.springframework.data.jpa.repository.Query;
+import rpgtcc.model.Sheet;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

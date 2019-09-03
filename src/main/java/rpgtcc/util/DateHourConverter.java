@@ -1,4 +1,4 @@
-package hot.util;
+package rpgtcc.util;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

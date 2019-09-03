@@ -1,10 +1,8 @@
-package hot.endpoint;
+package rpgtcc.endpoint;
 
-import com.google.cloud.dialogflow.v2.DetectIntentResponse;
-import com.google.cloud.dialogflow.v2.QueryResult;
-import hot.dto.DialogInputDTO;
-import hot.dto.DialogOutputDTO;
-import hot.service.DialogFlowService;
+import rpgtcc.dto.DialogInputDTO;
+import rpgtcc.dto.DialogOutputDTO;
+import rpgtcc.service.DialogFlowService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

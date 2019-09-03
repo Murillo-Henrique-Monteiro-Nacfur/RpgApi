@@ -1,4 +1,4 @@
-package hot.dto;
+package rpgtcc.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.cloud.dialogflow.v2.Intent;

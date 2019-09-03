@@ -1,4 +1,4 @@
-package hot.model;
+package rpgtcc.model;
 
 import javax.persistence.Entity;
 

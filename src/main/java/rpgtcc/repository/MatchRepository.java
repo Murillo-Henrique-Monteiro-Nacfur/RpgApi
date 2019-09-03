@@ -1,7 +1,7 @@
-package hot.repository;
+package rpgtcc.repository;
 
-import hot.model.Match;
-import hot.model.User;
+import rpgtcc.model.Match;
+import rpgtcc.model.User;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

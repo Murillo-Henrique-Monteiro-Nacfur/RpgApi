@@ -1,4 +1,4 @@
-package hot.model;
+package rpgtcc.model;
 
 
 import org.springframework.lang.NonNull;

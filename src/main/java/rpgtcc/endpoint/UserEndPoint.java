@@ -1,8 +1,7 @@
-package hot.endpoint;
+package rpgtcc.endpoint;
 
-import hot.model.Sheet;
-import hot.model.User;
-import hot.repository.UserRepository;
+import rpgtcc.model.User;
+import rpgtcc.repository.UserRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

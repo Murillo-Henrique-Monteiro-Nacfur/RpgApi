@@ -1,4 +1,4 @@
-package hot.service;
+package rpgtcc.service;
 import com.google.cloud.dialogflow.v2.DetectIntentResponse;
 import com.google.cloud.dialogflow.v2.QueryInput;
 import com.google.cloud.dialogflow.v2.QueryResult;
@@ -7,8 +7,8 @@ import com.google.cloud.dialogflow.v2.SessionsClient;
 import com.google.cloud.dialogflow.v2.TextInput;
 import com.google.cloud.dialogflow.v2.TextInput.Builder;
 import com.google.common.collect.Maps;
-import hot.dto.DialogInputDTO;
-import hot.dto.DialogOutputDTO;
+import rpgtcc.dto.DialogInputDTO;
+import rpgtcc.dto.DialogOutputDTO;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 

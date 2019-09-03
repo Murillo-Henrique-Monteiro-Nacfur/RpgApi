@@ -1,6 +1,6 @@
-package hot.repository;
+package rpgtcc.repository;
 
-import hot.model.User;
+import rpgtcc.model.User;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
