@@ -22,10 +22,9 @@ public class UserEndPoint {
 
     @GetMapping(path = "/{userName}")
     public ResponseEntity<?>  findUserByName(@PathVariable("userName")String userName){
-        User user= null;
         try{
 
-            if (userDAO.findUserByName(userName).getName() == userName)
+            if (userDAO.findUserByName(userName).getName().toUpperCase().equals(userName.toUpperCase()))
                 return  new ResponseEntity<>(userDAO.findUserByName(userName), HttpStatus.OK);
             else
                 return  new ResponseEntity<>("User Not found", HttpStatus.NOT_FOUND);

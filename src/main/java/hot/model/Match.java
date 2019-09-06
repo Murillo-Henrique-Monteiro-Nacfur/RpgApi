@@ -1,5 +1,7 @@
 package hot.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
@@ -9,6 +11,17 @@ import java.util.Objects;
 @Entity(name = "Game")
 public class Match implements Serializable {
 
+    public Match() {
+    }
+
+    public Match(long matchId, String name, char status, Date dateCriacao, User matchUser, List<Sheet> sheets) {
+        this.matchId = matchId;
+        this.name = name;
+        this.status = status;
+        this.dateCriacao = dateCriacao;
+        this.matchUser = matchUser;
+        this.sheets = sheets;
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,13 +31,26 @@ public class Match implements Serializable {
     private  String name;
 
     private char status;
+
     private Date dateCriacao;
 
     @ManyToOne
+    @JoinColumn(name = "match_user_id")
     private User matchUser;
 
-    @ManyToMany(mappedBy = "sheetMatchs")
-    private List<Sheet> matchSheets;
+
+    @JsonManagedReference
+    @OneToMany(mappedBy = "match",cascade = CascadeType.PERSIST)
+    private List<Sheet> sheets;
+
+
+    public List<Sheet> getSheets() {
+        return sheets;
+    }
+
+    public void setSheets(List<Sheet> sheets) {
+        this.sheets = sheets;
+    }
 
     public long getMatchId() {
         return matchId;
@@ -40,14 +66,6 @@ public class Match implements Serializable {
 
     public void setDateCriacao(Date dateCriacao) {
         this.dateCriacao = dateCriacao;
-    }
-
-    public List<Sheet> getMatchSheets() {
-        return matchSheets;
-    }
-
-    public void setMatchSheets(List<Sheet> matchSheets) {
-        this.matchSheets = matchSheets;
     }
 
     public User getMatchUser() { return matchUser; }

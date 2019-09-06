@@ -1,6 +1,7 @@
 package hot.endpoint;
 
 
+import hot.model.Match;
 import hot.model.Sheet;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,7 +30,17 @@ public class SheetEndPoint {
             return  new ResponseEntity<>("Sheet Not Found", HttpStatus.NOT_FOUND);
         }
     }
-
+    @GetMapping(path = "/playersInMatch/{id}")
+    public ResponseEntity<?> findAllSheetByMatchId(@PathVariable("id")Long id){
+        Match match = new Match();
+        match.setMatchId(id);
+        try{
+            return  new ResponseEntity<>(sheetDAO.findSheetByMatch(match), HttpStatus.OK);
+        }catch(Exception e){
+            e.printStackTrace();
+            return  new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
+    }
 
     @GetMapping(path = "/UserOwner/{id}")
     public ResponseEntity<?>  findSheetByUserOwner(@PathVariable("id")long id){

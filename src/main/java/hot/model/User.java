@@ -7,7 +7,17 @@ import java.util.List;
 @Entity(name = "Player")
 public class User extends AbstractEntity {
 
+    public User() {
+    }
 
+    public User(String name, String password, String email, Date dateaccount, List<Match> matchs, List<Sheet> sheets) {
+        this.name = name;
+        this.password = password;
+        this.email = email;
+        this.dateaccount = dateaccount;
+        this.matchs = matchs;
+        this.sheets = sheets;
+    }
 
     @Column(unique=true, nullable=false)
     private    String name;
@@ -19,6 +29,7 @@ public class User extends AbstractEntity {
 
     @Column(unique=true, nullable=false)
     private    String email;
+
     private    Date dateaccount;
 
     @OneToMany(mappedBy = "matchUser",cascade = CascadeType.PERSIST) // .ALL

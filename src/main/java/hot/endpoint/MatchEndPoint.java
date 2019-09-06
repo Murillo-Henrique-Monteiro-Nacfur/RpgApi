@@ -34,6 +34,16 @@ public class MatchEndPoint {
         }
     }
 
+/*
+    @GetMapping(path = "/playersInMatch/{id}")
+    public ResponseEntity<?> listOfplayersInMatch(@PathVariable("id")Long id){
+
+        try{
+            return  new ResponseEntity<>(matchDAO.findSheetsByMatchId(id), HttpStatus.OK);
+        }catch(Exception e){
+            return  new ResponseEntity<>(e.getCause(), HttpStatus.NOT_FOUND);
+        }
+    }*/
 
     @GetMapping(path = "/{id}")
     public ResponseEntity<?>  findMatchById(@PathVariable("id")Long id){
