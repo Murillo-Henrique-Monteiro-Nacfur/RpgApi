@@ -1,6 +1,6 @@
 package rpgtcc.endpoint;
 
-
+import rpgtcc.model.Match;
 import rpgtcc.model.Sheet;
 import rpgtcc.repository.SheetRepository;
 import org.springframework.http.HttpStatus;
@@ -15,12 +15,10 @@ public class SheetEndPoint {
         sheetDAO = sheetRepository;
     }
 
-
     @GetMapping
     public ResponseEntity<?> listOfAllSheets(){
         return new ResponseEntity<>(sheetDAO.findAll(), HttpStatus.OK);
     }
-
 
     @GetMapping(path = "/{id}")
     public ResponseEntity<?>  findSheetByName(@PathVariable("id")long id){
@@ -30,7 +28,17 @@ public class SheetEndPoint {
             return  new ResponseEntity<>("Sheet Not Found", HttpStatus.NOT_FOUND);
         }
     }
-
+    @GetMapping(path = "/playersInMatch/{id}")
+    public ResponseEntity<?> findAllSheetByMatchId(@PathVariable("id")Long id){
+        Match match = new Match();
+        match.setMatchId(id);
+        try{
+            return  new ResponseEntity<>(sheetDAO.findSheetByMatch(match), HttpStatus.OK);
+        }catch(Exception e){
+            e.printStackTrace();
+            return  new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
+    }
 
     @GetMapping(path = "/UserOwner/{id}")
     public ResponseEntity<?>  findSheetByUserOwner(@PathVariable("id")long id){
@@ -41,7 +49,6 @@ public class SheetEndPoint {
         }
     }
 
-
     @PostMapping
     public ResponseEntity<?> saveSheet(@RequestBody Sheet Sheet){
         try {
@@ -50,8 +57,6 @@ public class SheetEndPoint {
         }catch(Exception e){
             return new ResponseEntity<>(e.getMessage(),HttpStatus.CONFLICT);
         }
-
-
     }
 
     @DeleteMapping(path = "/{id}")
@@ -64,7 +69,6 @@ public class SheetEndPoint {
         }
     }
 
-
     @PutMapping
     public ResponseEntity<?> alterar(@RequestBody Sheet Sheet) {
         if(sheetDAO.existsById(Sheet.getSheetId())){
@@ -74,6 +78,4 @@ public class SheetEndPoint {
             return new ResponseEntity<>("Sheet não encontrado.",HttpStatus.NOT_FOUND);
         }
     }
-
-
 }
