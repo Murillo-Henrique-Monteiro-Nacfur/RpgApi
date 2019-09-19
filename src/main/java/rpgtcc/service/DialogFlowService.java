@@ -6,13 +6,11 @@ import com.google.cloud.dialogflow.v2.SessionName;
 import com.google.cloud.dialogflow.v2.SessionsClient;
 import com.google.cloud.dialogflow.v2.TextInput;
 import com.google.cloud.dialogflow.v2.TextInput.Builder;
-import com.google.common.collect.Maps;
 import rpgtcc.dto.DialogInputDTO;
 import rpgtcc.dto.DialogOutputDTO;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.util.Map;
 
 @Service
 public class DialogFlowService {
@@ -37,7 +35,6 @@ public class DialogFlowService {
         DialogInputDTO dialogInputDTO) throws Exception {
         String sessionId = "123456789";
 
-        Map<String, QueryResult> queryResults = Maps.newHashMap();
         // Instantiates a client
         try (SessionsClient sessionsClient = SessionsClient.create()) {
             // Set the session name using the sessionId (UUID) and projectID (my-project-id)
@@ -67,7 +64,7 @@ public class DialogFlowService {
                 //queryResult.getParameters()
                 //queryResult.getIntent()
 
-                return new DialogOutputDTO(queryResult.getAction(),
+                  return new DialogOutputDTO(queryResult.getAction(),
                         queryResult.getIntent(),
                         queryResult.getParameters(),
                         queryResult.getFulfillmentMessagesList());

@@ -1,81 +1,52 @@
 package rpgtcc.endpoint;
 
-import rpgtcc.model.Match;
+import org.springframework.beans.factory.annotation.Autowired;
 import rpgtcc.model.Sheet;
-import rpgtcc.repository.SheetRepository;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import rpgtcc.service.SheetService;
+
+import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("sheet")
 public class SheetEndPoint {
-    private SheetRepository sheetDAO;
-    private SheetEndPoint(SheetRepository sheetRepository){
-        sheetDAO = sheetRepository;
+
+    @Autowired
+    private SheetService sheetService;
+
+    @PostMapping
+    public Sheet saveSheet(@RequestBody Sheet Sheet){
+        return sheetService.saveSheet(Sheet);
     }
 
     @GetMapping
-    public ResponseEntity<?> listOfAllSheets(){
-        return new ResponseEntity<>(sheetDAO.findAll(), HttpStatus.OK);
+    public List<Sheet> listOfAllSheets(){
+        return sheetService.listOfAllSheets();
     }
 
     @GetMapping(path = "/{id}")
-    public ResponseEntity<?>  findSheetByName(@PathVariable("id")long id){
-        try{
-            return  new ResponseEntity<>(sheetDAO.findById(id), HttpStatus.OK);
-        }catch(Exception e){
-            return  new ResponseEntity<>("Sheet Not Found", HttpStatus.NOT_FOUND);
-        }
+    public Optional<Sheet> findSheetById(@PathVariable("id")Long id){
+        return sheetService.findSheetById(id);
     }
+
     @GetMapping(path = "/playersInMatch/{id}")
-    public ResponseEntity<?> findAllSheetByMatchId(@PathVariable("id")Long id){
-        Match match = new Match();
-        match.setMatchId(id);
-        try{
-            return  new ResponseEntity<>(sheetDAO.findSheetByMatch(match), HttpStatus.OK);
-        }catch(Exception e){
-            e.printStackTrace();
-            return  new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-        }
+    public List<Sheet> findAllSheetByMatchId(@PathVariable("id")Long id){
+        return sheetService.findAllSheetByMatchId(id);
     }
 
     @GetMapping(path = "/UserOwner/{id}")
-    public ResponseEntity<?>  findSheetByUserOwner(@PathVariable("id")long id){
-        try{
-            return  new ResponseEntity<>(sheetDAO.findAllSheetBySheetUserId(id), HttpStatus.OK);
-        }catch(Exception e){
-            return  new ResponseEntity<>("Sheets Not Found", HttpStatus.NOT_FOUND);
-        }
-    }
-
-    @PostMapping
-    public ResponseEntity<?> saveSheet(@RequestBody Sheet Sheet){
-        try {
-            sheetDAO.save(Sheet);
-            return new ResponseEntity<>(Sheet,HttpStatus.OK);
-        }catch(Exception e){
-            return new ResponseEntity<>(e.getMessage(),HttpStatus.CONFLICT);
-        }
-    }
-
-    @DeleteMapping(path = "/{id}")
-    public ResponseEntity<?> deleteSheet(@PathVariable("id")long id) {
-        try {
-            sheetDAO.deleteById(id);
-            return new ResponseEntity<>(HttpStatus.OK);
-        }catch(Exception e){
-            return new ResponseEntity<>("Sheet Not Found",HttpStatus.NOT_FOUND);
-        }
+    public List<Sheet> findSheetByUserOwner(@PathVariable("id")Long id){
+        return sheetService.findSheetByUserOwner(id);
     }
 
     @PutMapping
-    public ResponseEntity<?> alterar(@RequestBody Sheet Sheet) {
-        if(sheetDAO.existsById(Sheet.getSheetId())){
-            sheetDAO.save(Sheet);
-            return new ResponseEntity<>(HttpStatus.OK);
-        }else{
-            return new ResponseEntity<>("Sheet não encontrado.",HttpStatus.NOT_FOUND);
-        }
+    public Sheet update(@RequestBody Sheet Sheet) {
+        return sheetService.saveSheet(Sheet);
+    }
+
+    @DeleteMapping(path = "/{id}")
+    public void deleteSheet(@PathVariable("id")Long id) {
+        sheetService.deleteSheet(id);
     }
 }

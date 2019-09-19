@@ -11,18 +11,6 @@ import java.util.Objects;
 @Entity(name = "Game")
 public class Match implements Serializable {
 
-    public Match() {
-    }
-
-    public Match(long matchId, String name, char status, Date dateCriacao, User matchUser, List<Sheet> sheets) {
-        this.matchId = matchId;
-        this.name = name;
-        this.status = status;
-        this.dateCriacao = dateCriacao;
-        this.matchUser = matchUser;
-        this.sheets = sheets;
-    }
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long matchId;
@@ -38,11 +26,21 @@ public class Match implements Serializable {
     @JoinColumn(name = "match_user_id")
     private User matchUser;
 
-
     @JsonManagedReference
     @OneToMany(mappedBy = "match",cascade = CascadeType.PERSIST)
     private List<Sheet> sheets;
 
+    public Match() {
+    }
+
+    public Match(long matchId, String name, char status, Date dateCriacao, User matchUser, List<Sheet> sheets) {
+        this.matchId = matchId;
+        this.name = name;
+        this.status = status;
+        this.dateCriacao = dateCriacao;
+        this.matchUser = matchUser;
+        this.sheets = sheets;
+    }
 
     public List<Sheet> getSheets() {
         return sheets;
@@ -96,9 +94,6 @@ public class Match implements Serializable {
         this.dateCriacao = dataCriacao;
     }
 
-
-
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -111,6 +106,4 @@ public class Match implements Serializable {
     public int hashCode() {
         return Objects.hash(matchId);
     }
-
-
 }

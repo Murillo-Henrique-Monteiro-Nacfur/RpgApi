@@ -1,68 +1,40 @@
 package rpgtcc.endpoint;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import rpgtcc.model.User;
-import rpgtcc.repository.UserRepository;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import rpgtcc.service.UserService;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("user")
 public class UserEndPoint {
-    private final UserRepository userDAO;
 
-    public UserEndPoint(UserRepository userDAO) {
-        this.userDAO = userDAO;
+    @Autowired
+    private UserService userService;
+
+    @PostMapping
+    public User saveUser(@RequestBody User user){
+        return userService.saveUser(user);
     }
-
     @GetMapping
-    public ResponseEntity<?> listOfAllUsers(){
-        return new ResponseEntity<>(userDAO.findAll(), HttpStatus.OK);
+    public List<User> listOfAllUsers(){
+        return userService.listOfAllUsers();
     }
 
     @GetMapping(path = "/{userName}")
-    public ResponseEntity<?>  findUserByName(@PathVariable("userName")String userName){
-        try{
-
-            if (userDAO.findUserByName(userName).getName().toUpperCase().equals(userName.toUpperCase()))
-                return  new ResponseEntity<>(userDAO.findUserByName(userName), HttpStatus.OK);
-            else
-                return  new ResponseEntity<>("User Not found", HttpStatus.NOT_FOUND);
-
-        }catch(Exception e){
-            return  new ResponseEntity<>("User Not Found",HttpStatus.NOT_FOUND );
-        }
+    public User findUserByName(@PathVariable("userName")String userName){
+        return userService.findUserByName(userName);
     }
-    @PostMapping
-    public ResponseEntity<?> saveUser(@RequestBody User user){
-        try {
-        userDAO.save(user);
-            return new ResponseEntity<>(user,HttpStatus.OK);
-        }catch(Exception e){
-            return new ResponseEntity<>(e.getMessage(),HttpStatus.CONFLICT);
-        }
+
+    @PutMapping
+    public User update(@RequestBody User user) {
+        return userService.saveUser(user);
     }
 
    @DeleteMapping(path = "/{id}")
-    public ResponseEntity<?> deleteUser(@PathVariable("id")long id) {
-        try {
-            userDAO.deleteById(id);
-            return new ResponseEntity<>(HttpStatus.OK);
-        }catch(Exception e){
-            return new ResponseEntity<>("User Not Found.",HttpStatus.NOT_FOUND);
-        }
+    public void deleteUser(@PathVariable("id")long id) {
+        userService.deleteUser(id);
     }
-
-
-    @PutMapping
-    public ResponseEntity<?> alterar(@RequestBody User user) {
-        if(userDAO.existsById(user.getId())){
-            userDAO.save(user);
-            return new ResponseEntity<>(HttpStatus.OK);
-        }else{
-            return new ResponseEntity<>("User Not Found.",HttpStatus.NOT_FOUND);
-        }
-    }
-    
-    
 }
