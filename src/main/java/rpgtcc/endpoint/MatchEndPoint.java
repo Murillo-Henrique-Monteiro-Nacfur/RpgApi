@@ -17,7 +17,7 @@ public class MatchEndPoint {
 
     @PostMapping
     public Match saveMatch(@RequestBody Match match){
-        return matchService.saveMatch(match);
+        return matchService.createMatch(match);
     }
 
     @GetMapping
@@ -33,6 +33,11 @@ public class MatchEndPoint {
     @GetMapping(path = "/{id}")
     public Match findMatchById(@PathVariable("id")Long id){
         return matchService.findMatchById(id);
+    }
+
+    @GetMapping("/pin/{id}")
+    public Integer findPinByMatchId(@PathVariable("id")Long id){
+        return matchService.findPinByMatchId(id);
     }
 
     @PutMapping

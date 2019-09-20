@@ -34,15 +34,19 @@ public class SheetEndPoint {
     public List<Sheet> findAllSheetByMatchId(@PathVariable("id")Long id){
         return sheetService.findAllSheetByMatchId(id);
     }
-
     @GetMapping(path = "/UserOwner/{id}")
     public List<Sheet> findSheetByUserOwner(@PathVariable("id")Long id){
         return sheetService.findSheetByUserOwner(id);
     }
 
     @PutMapping
-    public Sheet update(@RequestBody Sheet Sheet) {
-        return sheetService.saveSheet(Sheet);
+    public Sheet update(@RequestBody Sheet sheet) {
+        return sheetService.saveSheet(sheet);
+    }
+
+    @PutMapping("addSheetToMatch/{pin}")
+    public Sheet addSheetToMatch(@PathVariable("pin")Integer pin, @RequestBody Sheet sheet) {
+        return sheetService.addSheetToMatch(pin, sheet);
     }
 
     @DeleteMapping(path = "/{id}")

@@ -13,14 +13,13 @@ public class Match implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long matchId;
+    private Long matchId;
 
     @Column(unique=true, nullable=false)
     private  String name;
-
     private char status;
-
     private Date dateCriacao;
+    private Integer pin;
 
     @ManyToOne
     @JoinColumn(name = "match_user_id")
@@ -33,11 +32,11 @@ public class Match implements Serializable {
     public Match() {
     }
 
-    public Match(long matchId, String name, char status, Date dateCriacao, User matchUser, List<Sheet> sheets) {
-        this.matchId = matchId;
+    public Match(String name, char status, Date dateCriacao, Integer pin, User matchUser, List<Sheet> sheets) {
         this.name = name;
         this.status = status;
         this.dateCriacao = dateCriacao;
+        this.pin = pin;
         this.matchUser = matchUser;
         this.sheets = sheets;
     }
@@ -86,13 +85,9 @@ public class Match implements Serializable {
         this.status = status;
     }
 
-    public Date getDataCriacao() {
-        return dateCriacao;
-    }
+    public Integer getPin() { return pin; }
 
-    public void setDataCriacao(Date dataCriacao) {
-        this.dateCriacao = dataCriacao;
-    }
+    public void setPin(Integer pin) { this.pin = pin; }
 
     @Override
     public boolean equals(Object o) {

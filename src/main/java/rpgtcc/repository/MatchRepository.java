@@ -8,5 +8,7 @@ import java.util.List;
 
 @Repository
 public interface MatchRepository extends CrudRepository<Match,Long> {
+    Boolean existsByPin(Integer pin);
+    Match findMatchByPin(Integer pin);
     List<Match> findMatchByMatchUser_Id(Long id);
 }
