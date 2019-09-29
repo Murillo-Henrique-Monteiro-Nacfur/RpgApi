@@ -1,15 +1,20 @@
 package rpgtcc.service;
-import com.google.cloud.dialogflow.v2.DetectIntentResponse;
-import com.google.cloud.dialogflow.v2.QueryInput;
-import com.google.cloud.dialogflow.v2.QueryResult;
-import com.google.cloud.dialogflow.v2.SessionName;
-import com.google.cloud.dialogflow.v2.SessionsClient;
-import com.google.cloud.dialogflow.v2.TextInput;
+import com.google.cloud.dialogflow.v2.*;
 import com.google.cloud.dialogflow.v2.TextInput.Builder;
+import org.springframework.beans.factory.annotation.Autowired;
 import rpgtcc.dto.DialogInputDTO;
 import rpgtcc.dto.DialogOutputDTO;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import rpgtcc.model.Item;
+import rpgtcc.model.Product;
+import rpgtcc.model.Sheet;
+
+import java.nio.file.AccessDeniedException;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 
 @Service
@@ -19,6 +24,14 @@ public class DialogFlowService {
     private String projectId;
     @Value("${language-code}")
     private String languageCode;
+    @Autowired
+    private MatchService matchService;
+    @Autowired
+    private ItemService itemService;
+    @Autowired
+    private ProductService productService;
+    @Autowired
+    private SheetService sheetService;
 
     public DialogOutputDTO getResponse(
         /**
@@ -33,7 +46,24 @@ public class DialogFlowService {
          * @return The QueryResult for each input text.
          */
         DialogInputDTO dialogInputDTO) throws Exception {
-        String sessionId = "123456789";
+
+        Long id = dialogInputDTO.getSheetId();
+
+        if(id != 0L) {
+            if (!this.matchService.isChatAvailable(id)) {
+                return new DialogOutputDTO("",
+                        (List<Intent.Message>) Collections.singletonList(
+                        Intent.Message
+                                .newBuilder()
+                                .setText(Intent.Message.Text
+                                        .newBuilder()
+                                        .addText("O estalajadeiro não está por perto!")
+                                        .build())
+                                .build()));
+            }
+        }
+
+        String sessionId = "session" + id.toString();
 
         // Instantiates a client
         try (SessionsClient sessionsClient = SessionsClient.create()) {
@@ -59,14 +89,53 @@ public class DialogFlowService {
                         queryResult.getIntent().getDisplayName(), queryResult.getIntentDetectionConfidence());
                 System.out.format("Fulfillment Text: '%s'\n", queryResult.getFulfillmentText());
 
-                //queryResult.getAction()
+                DialogOutputDTO dialogOutputDTO = new DialogOutputDTO(queryResult.getAction(),
+                    queryResult.getFulfillmentMessagesList());
+
+                if(queryResult.getAction().equals("PRICE")){
+
+
+                    Product product = this.productService.readByFlag(queryResult.getParameters().getFieldsMap().get("storeItens").getStringValue());
+
+                    String answer = dialogOutputDTO.getMessage()
+                            .replace("[item]", product.getName())
+                            .replace("[cost]", product.getPrice().toString());
+                    dialogOutputDTO.setMessage(answer);
+
+                    return dialogOutputDTO;
+                }
+
+                if(queryResult.getAction().equals("SELL_ITEM")){
+                    Product product = this.productService.readByFlag(queryResult.getParameters().getFieldsMap().get("storeItens").getStringValue());
+                    Integer quantity = (int)queryResult.getParameters().getFieldsMap().get("number-integer").getNumberValue();
+                    String answer;
+                    Integer fullprice = quantity * product.getPrice();
+                    Sheet character = this.sheetService.findSheetById(id);
+
+                    if(character.getGold() >= fullprice){
+                        Integer units = quantity * product.getUnit();
+                        while (units > 0){
+                            this.itemService.create(new Item(id, product.getName()));
+                            units--;
+                        }
+
+                        character.setGold(character.getGold() - fullprice);
+                        this.sheetService.saveSheet(character);
+                        answer = dialogOutputDTO.getMessage()
+                                .replace("[item]", product.getName());
+                    }else{
+                        answer = "Infelizmente você não tem dinheiro suficiente para isso!";
+                    }
+
+                    dialogOutputDTO.setMessage(answer);
+
+                    return dialogOutputDTO;
+                }
                 //queryResult.getFulfillmentMessagesList()
                 //queryResult.getParameters()
                 //queryResult.getIntent()
 
                   return new DialogOutputDTO(queryResult.getAction(),
-                        queryResult.getIntent(),
-                        queryResult.getParameters(),
                         queryResult.getFulfillmentMessagesList());
         }
     }

@@ -20,6 +20,18 @@ public class DialogFlowEndPoint {
     public DialogOutputDTO getResponse(@RequestBody DialogInputDTO dialogInputDTO){
 
         try {
+            dialogInputDTO.setSheetId(0L);
+            return this.dialogFlowService.getResponse(dialogInputDTO);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @PostMapping("hero")
+    public DialogOutputDTO getResponseForUser(@RequestBody DialogInputDTO dialogInputDTO){
+
+        try {
             return this.dialogFlowService.getResponse(dialogInputDTO);
         } catch (Exception e) {
             e.printStackTrace();

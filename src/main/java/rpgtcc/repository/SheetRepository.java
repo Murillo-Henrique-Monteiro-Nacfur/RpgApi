@@ -5,9 +5,10 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface SheetRepository extends CrudRepository<Sheet,Long> {
-    List<Sheet> findAllSheetBySheetUser_Id(Long id);
-    List<Sheet> findSheetByMatch_MatchId(Long id);
+    List<Sheet> findAllSheetByUser_Id(Long id);
+    List<Sheet> findSheetByMatch_Id(Long id);
 }

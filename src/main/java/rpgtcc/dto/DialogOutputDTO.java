@@ -13,7 +13,7 @@ public class DialogOutputDTO {
     //Struct parameters;
     String message;
 
-    public DialogOutputDTO(String action, Intent intent, Struct parameters, List<Intent.Message> fulfillment_messages) {
+    public DialogOutputDTO(String action, List<Intent.Message> fulfillment_messages) {
         this.action = action;
         //this.intent = intent;
         //this.parameters = parameters;
@@ -31,5 +31,9 @@ public class DialogOutputDTO {
     @JsonProperty("message")
     public String getMessage() {
         return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
     }
 }

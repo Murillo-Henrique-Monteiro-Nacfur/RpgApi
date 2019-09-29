@@ -1,23 +1,17 @@
 package rpgtcc.model;
 
+import com.fasterxml.jackson.annotation.*;
+
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 
-@Entity(name = "Player")
-public class User extends AbstractEntity {
+@Entity
+public class User{
 
-    public User() {
-    }
-
-    public User(String name, String password, String email, Date dateaccount, List<Match> matchs, List<Sheet> sheets) {
-        this.name = name;
-        this.password = password;
-        this.email = email;
-        this.dateaccount = dateaccount;
-        this.matchs = matchs;
-        this.sheets = sheets;
-    }
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @Column(unique=true, nullable=false)
     private    String name;
@@ -28,13 +22,28 @@ public class User extends AbstractEntity {
     @Column(unique=true, nullable=false)
     private    String email;
 
-    private    Date dateaccount;
-
-    @OneToMany(mappedBy = "matchUser",cascade = CascadeType.PERSIST)
+    @JsonIgnore
+    @OneToMany(mappedBy = "user",cascade = CascadeType.PERSIST)
     private List<Match> matchs;
 
-    @OneToMany(mappedBy = "sheetUser",cascade = CascadeType.PERSIST)
+    @JsonIgnore
+    @OneToMany(mappedBy = "user",cascade = CascadeType.PERSIST)
     private List<Sheet> sheets;
+
+    public User() {
+    }
+
+    public User(String name, String password, String email, List<Match> matchs, List<Sheet> sheets) {
+        this.name = name;
+        this.password = password;
+        this.email = email;
+        this.matchs = matchs;
+        this.sheets = sheets;
+    }
+
+    public Long getId() {
+        return id;
+    }
 
     public String getName() {
         return name;
@@ -60,11 +69,19 @@ public class User extends AbstractEntity {
         this.email = email;
     }
 
-    public Date getDateAccount() {
-        return dateaccount;
+    public List<Match> getMatchs() {
+        return matchs;
     }
 
-    public void setDateAccount(Date dateAccount) {
-        this.dateaccount = dateAccount;
+    public void setMatchs(List<Match> matchs) {
+        this.matchs = matchs;
+    }
+
+    public List<Sheet> getSheets() {
+        return sheets;
+    }
+
+    public void setSheets(List<Sheet> sheets) {
+        this.sheets = sheets;
     }
 }

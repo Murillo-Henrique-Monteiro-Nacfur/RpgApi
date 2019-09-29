@@ -18,6 +18,7 @@ public class UserEndPoint {
     public User saveUser(@RequestBody User user){
         return userService.saveUser(user);
     }
+
     @GetMapping
     public List<User> listOfAllUsers(){
         return userService.listOfAllUsers();

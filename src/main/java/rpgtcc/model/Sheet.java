@@ -2,26 +2,47 @@ package rpgtcc.model;
 
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import net.bytebuddy.implementation.bind.annotation.IgnoreForBinding;
-import org.hibernate.mapping.FetchProfile;
-import org.hibernate.validator.internal.IgnoreForbiddenApisErrors;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import org.springframework.lang.NonNull;
 
 import javax.persistence.*;
-import java.io.Serializable;
-import java.nio.file.attribute.FileTime;
-import java.util.List;
 import java.util.Objects;
 
 @Entity
-public class Sheet implements Serializable  {
+public class Sheet{
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @NonNull
+    private String  name;
+    private Integer maxHealthPoints;
+    private Integer currentHealthPoints;
+    private Integer maxEnergyPoints;
+    private Integer currentEnergyPoints;
+    private Integer strength;
+    private Integer dexterity;
+    private Integer constitution;
+    private Integer intelligence;
+    private Integer wisdom;
+    private Integer charism;
+    private Integer gold;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    @ManyToOne
+    @JoinColumn(name = "match_id")
+    private Match match;
 
     public Sheet() {
     }
 
-    public Sheet(long sheetId, String name, int maxHealthPoints, int currentHealthPoints, int maxEnergyPoints, int currentEnergyPoints, int strength, int dexterity, int constitution, int intelligence, int wisdom, int charism, User sheetUser, Match match) {
-
-        this.sheetId = sheetId;
+    public Sheet(@NonNull String name, Integer maxHealthPoints, Integer currentHealthPoints, Integer maxEnergyPoints, Integer currentEnergyPoints, Integer strength, Integer dexterity, Integer constitution, Integer intelligence, Integer wisdom, Integer charism, Integer gold, User user, Match match) {
         this.name = name;
         this.maxHealthPoints = maxHealthPoints;
         this.currentHealthPoints = currentHealthPoints;
@@ -33,42 +54,17 @@ public class Sheet implements Serializable  {
         this.intelligence = intelligence;
         this.wisdom = wisdom;
         this.charism = charism;
-        this.sheetUser = sheetUser;
+        this.gold = gold;
+        this.user = user;
         this.match = match;
     }
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long sheetId;
-
-    @NonNull
-    private String  name;
-    private int     maxHealthPoints;
-    private int     currentHealthPoints;
-    private int     maxEnergyPoints;
-    private int     currentEnergyPoints;
-    private int     strength;
-    private int     dexterity;
-    private int     constitution;
-    private int     intelligence;
-    private int     wisdom;
-    private int     charism;
-
-    @ManyToOne
-    @JoinColumn(name = "sheet_user_id")
-    private User sheetUser;
-
-    @ManyToOne
-    @JsonBackReference
-    @JoinColumn(name = "match_match_id")//@JoinTable(name = "Sheet_in_Match",joinColumns = @JoinColumn(name = "Sheet_in_Match_sheet_id"),inverseJoinColumns = @JoinColumn(name = "Sheet_in_Match_match_id"))
-    private Match match;
-
-    public long getSheetId() {
-        return sheetId;
+    public Long getId() {
+        return id;
     }
 
-    public void setSheetId(long sheetId) {
-        this.sheetId = sheetId;
+    public void setId(Long sheetId) {
+        this.id = sheetId;
     }
 
     public Match getMatch() {
@@ -79,20 +75,20 @@ public class Sheet implements Serializable  {
         this.match = match;
     }
 
-    public int getCharism() {
+    public Integer getCharism() {
         return charism;
     }
 
-    public void setCharism(int charism) {
+    public void setCharism(Integer charism) {
         this.charism = charism;
     }
 
-    public User getSheetUser() {
-        return sheetUser;
+    public User getUser() {
+        return user;
     }
 
-    public void setSheetUser(User sheetUser) {
-        this.sheetUser = sheetUser;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public String getName() {
@@ -103,89 +99,93 @@ public class Sheet implements Serializable  {
         this.name = name;
     }
 
-    public int getMaxHealthPoints() {
+    public Integer getMaxHealthPoints() {
         return maxHealthPoints;
     }
 
-    public void setMaxHealthPoints(int maxHealthPoints) {
+    public void setMaxHealthPoints(Integer maxHealthPoints) {
         this.maxHealthPoints = maxHealthPoints;
     }
 
-    public int getCurrentHealthPoints() {
+    public Integer getCurrentHealthPoints() {
         return currentHealthPoints;
     }
 
-    public void setCurrentHealthPoints(int currentHealthPoints) {
+    public void setCurrentHealthPoints(Integer currentHealthPoints) {
         this.currentHealthPoints = currentHealthPoints;
     }
 
-    public int getMaxEnergyPoints() {
+    public Integer getMaxEnergyPoints() {
         return maxEnergyPoints;
     }
 
-    public void setMaxEnergyPoints(int maxEnergyPoints) {
+    public void setMaxEnergyPoints(Integer maxEnergyPoints) {
         this.maxEnergyPoints = maxEnergyPoints;
     }
 
-    public int getCurrentEnergyPoints() {
+    public Integer getCurrentEnergyPoints() {
         return currentEnergyPoints;
     }
 
-    public void setCurrentEnergyPoints(int currentEnergyPoints) {
+    public void setCurrentEnergyPoints(Integer currentEnergyPoints) {
         this.currentEnergyPoints = currentEnergyPoints;
     }
 
-    public int getStrength() {
+    public Integer getStrength() {
         return strength;
     }
 
-    public void setStrength(int strength) {
+    public void setStrength(Integer strength) {
         this.strength = strength;
     }
 
-    public int getDexterity() {
+    public Integer getDexterity() {
         return dexterity;
     }
 
-    public void setDexterity(int dexterity) {
+    public void setDexterity(Integer dexterity) {
         this.dexterity = dexterity;
     }
 
-    public int getConstitution() {
+    public Integer getConstitution() {
         return constitution;
     }
 
-    public void setConstitution(int constitution) {
+    public void setConstitution(Integer constitution) {
         this.constitution = constitution;
     }
 
-    public int getIntelligence() {
+    public Integer getIntelligence() {
         return intelligence;
     }
 
-    public void setIntelligence(int intelligence) {
+    public void setIntelligence(Integer intelligence) {
         this.intelligence = intelligence;
     }
 
-    public int getWisdom() {
+    public Integer getWisdom() {
         return wisdom;
     }
 
-    public void setWisdom(int wisdom) {
+    public void setWisdom(Integer wisdom) {
         this.wisdom = wisdom;
     }
+
+    public Integer getGold() { return gold; }
+
+    public void setGold(Integer gold) { this.gold = gold; }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        AbstractEntity that = (AbstractEntity) o;
-        return sheetId == that.id;
+        Sheet sheet = (Sheet) o;
+        return Objects.equals(id, sheet.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(sheetId);
+        return Objects.hash(id);
     }
 }
 

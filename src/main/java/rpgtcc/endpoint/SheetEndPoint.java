@@ -26,7 +26,7 @@ public class SheetEndPoint {
     }
 
     @GetMapping(path = "/{id}")
-    public Optional<Sheet> findSheetById(@PathVariable("id")Long id){
+    public Sheet findSheetById(@PathVariable("id")Long id){
         return sheetService.findSheetById(id);
     }
 
