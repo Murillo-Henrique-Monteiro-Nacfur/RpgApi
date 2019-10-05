@@ -14,13 +14,13 @@ public class User{
     private Long id;
 
     @Column(unique=true, nullable=false)
-    private    String name;
+    private String name;
 
     @Column(unique=true, nullable=false)
-    private    String password;
+    private String password;
 
     @Column(unique=true, nullable=false)
-    private    String email;
+    private String email;
 
     @JsonIgnore
     @OneToMany(mappedBy = "user",cascade = CascadeType.PERSIST)

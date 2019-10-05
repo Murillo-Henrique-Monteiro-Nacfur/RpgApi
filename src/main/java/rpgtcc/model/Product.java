@@ -15,7 +15,6 @@ public class Product{
     private String flag;
     private String name;
     private Integer price;
-    private Integer unit;
 
     public String getName() {
         return name;
@@ -23,9 +22,5 @@ public class Product{
 
     public Integer getPrice() {
         return price;
-    }
-
-    public Integer getUnit() {
-        return unit;
     }
 }

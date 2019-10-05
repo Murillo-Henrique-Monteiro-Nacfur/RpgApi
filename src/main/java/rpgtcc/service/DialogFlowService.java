@@ -1,4 +1,5 @@
 package rpgtcc.service;
+
 import com.google.cloud.dialogflow.v2.*;
 import com.google.cloud.dialogflow.v2.TextInput.Builder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,13 +10,8 @@ import org.springframework.stereotype.Service;
 import rpgtcc.model.Item;
 import rpgtcc.model.Product;
 import rpgtcc.model.Sheet;
-
-import java.nio.file.AccessDeniedException;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-
 
 @Service
 public class DialogFlowService {
@@ -113,10 +109,9 @@ public class DialogFlowService {
                     Sheet character = this.sheetService.findSheetById(id);
 
                     if(character.getGold() >= fullprice){
-                        Integer units = quantity * product.getUnit();
-                        while (units > 0){
+                        while (quantity > 0){
                             this.itemService.create(new Item(id, product.getName()));
-                            units--;
+                            quantity--;
                         }
 
                         character.setGold(character.getGold() - fullprice);

@@ -5,6 +5,7 @@ import rpgtcc.model.User;
 import org.springframework.web.bind.annotation.*;
 import rpgtcc.service.UserService;
 
+import java.nio.file.AccessDeniedException;
 import java.util.List;
 
 @RestController
@@ -16,7 +17,7 @@ public class UserEndPoint {
 
     @PostMapping
     public User saveUser(@RequestBody User user){
-        return userService.saveUser(user);
+        return userService.createUser(user);
     }
 
     @GetMapping
@@ -25,8 +26,8 @@ public class UserEndPoint {
     }
 
     @GetMapping(path = "/{userName}")
-    public User findUserByName(@PathVariable("userName")String userName){
-        return userService.findUserByName(userName);
+    public User findUserByName(@PathVariable("userName")String userName, @RequestParam String password) throws AccessDeniedException {
+        return userService.findUserByName(userName, password);
     }
 
     @PutMapping
