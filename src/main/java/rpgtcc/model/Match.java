@@ -20,6 +20,7 @@ public class Match{
     private  String name;
     private Integer pin;
     private Boolean chatAvailable;
+    private String secret;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -77,6 +78,14 @@ public class Match{
 
     public void setChatAvailable(Boolean chatAvailable) {
         this.chatAvailable = chatAvailable;
+    }
+
+    public String getSecret() {
+        return secret;
+    }
+
+    public void setSecret(String secret) {
+        this.secret = secret;
     }
 
     @Override

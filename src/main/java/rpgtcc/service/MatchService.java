@@ -10,6 +10,7 @@ import rpgtcc.util.Utils;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -33,6 +34,7 @@ public class MatchService {
         }while(matchDAO.existsByPin(pin));
 
         match.setPin(pin);
+        match.setChatAvailable(false);
 
         return matchDAO.save(match);
     }
@@ -66,5 +68,13 @@ public class MatchService {
                         "Esta ficha não está em nenhuma partida!"));
 
         return match.isChatAvailable();
+    }
+
+    public String getMatchSecret(Long sheetId) {
+        Optional<Match> match = this.matchDAO.findBySheets_Id(sheetId);
+        if (match.isPresent()){
+            return match.get().getSecret();
+        }
+        return "Sem segredo!";
     }
 }

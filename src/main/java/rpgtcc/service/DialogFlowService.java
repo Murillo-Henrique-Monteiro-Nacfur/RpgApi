@@ -89,8 +89,6 @@ public class DialogFlowService {
                     queryResult.getFulfillmentMessagesList());
 
                 if(queryResult.getAction().equals("PRICE")){
-
-
                     Product product = this.productService.readByFlag(queryResult.getParameters().getFieldsMap().get("storeItens").getStringValue());
 
                     String answer = dialogOutputDTO.getMessage()
@@ -100,6 +98,16 @@ public class DialogFlowService {
 
                     return dialogOutputDTO;
                 }
+
+            if(queryResult.getAction().equals("TELL_SECRET")){
+
+                String secret = this.matchService.getMatchSecret(id);
+
+                String answer = dialogOutputDTO.getMessage() + secret;
+                dialogOutputDTO.setMessage(answer);
+
+                return dialogOutputDTO;
+            }
 
                 if(queryResult.getAction().equals("SELL_ITEM")){
                     Product product = this.productService.readByFlag(queryResult.getParameters().getFieldsMap().get("storeItens").getStringValue());
